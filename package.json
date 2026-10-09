@@ -5,15 +5,15 @@
   "description": "NestJS backend for Naija Childhood: accounts, scores, leaderboards, daily challenges, remote config.",
   "scripts": {
     "build": "rm -rf dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-    "start": "node dist/backend/src/main.js",
-    "dev": "npm run build && node --enable-source-maps dist/backend/src/main.js",
+    "start": "node dist/src/main.js",
+    "dev": "npm run build && node --enable-source-maps dist/src/main.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "npm run build && export DATABASE_URL=${TEST_DATABASE_URL:-'postgresql://naija@localhost:54329/naija_childhood_test?host=/tmp'} JWT_SECRET=test-secret-test-secret-test-secret NODE_ENV=test && prisma migrate deploy >/dev/null && node --test --test-concurrency=1 dist/backend/test/",
+    "test": "npm run build && export DATABASE_URL=${TEST_DATABASE_URL:-'postgresql://naija@localhost:54329/naija_childhood_test?host=/tmp'} JWT_SECRET=test-secret-test-secret-test-secret NODE_ENV=test && prisma migrate deploy >/dev/null && node --test --test-concurrency=1 dist/test/",
     "db:start": "LANG=en_US.UTF-8 pg_ctl -D .pgdata -o \"-p 54329 -k /tmp\" -l .pgdata/server.log start",
     "db:stop": "pg_ctl -D .pgdata stop",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
-    "db:seed": "node dist/backend/src/seed.js",
+    "db:seed": "node dist/src/seed.js",
     "prisma:generate": "prisma generate"
   },
   "dependencies": {

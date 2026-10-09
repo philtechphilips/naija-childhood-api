@@ -1,18 +1,12 @@
 # Naija Childhood: backend
 
-NestJS 11 (Fastify) + Prisma + PostgreSQL. Accounts, server-checked scores, leaderboards, daily challenges and remote config for the app in [`../frontend`](../frontend).
+NestJS 11 (Fastify) + Prisma + PostgreSQL. Accounts, server-checked scores, leaderboards, daily challenges and remote config for the [Naija Childhood web app](https://github.com/philtechphilips/naija-childhood).
 
-Scores are validated with **the same code the app uses** (`frontend/lib/validation.ts` and each game's `rules.ts`), compiled straight into the server, so there is one source of truth for what a legal score is.
+Scores are validated with **the same code the app uses** (`src/lib/validation.ts` and each game's `rules.ts`), so there is one source of truth for what a legal score is.
 
-## Getting the code
+## Game rules
 
-The API compiles in the game rules from the web app, so clone both repos side by side as `frontend/` and `backend/`:
-
-```bash
-mkdir naija-childhood && cd naija-childhood
-git clone https://github.com/philtechphilips/naija-childhood.git frontend
-git clone https://github.com/philtechphilips/naija-childhood-api.git backend
-```
+The API has its own copy of the game rules and score checks in [`src/lib/`](src/lib/) and [`src/games/`](src/games/), the same code as the web app, so scores are checked exactly the way the app scores them. This repo builds on its own; it doesn't need the frontend. When a game's rules change in the frontend, make the same change here.
 
 ## Run it locally
 
@@ -68,8 +62,7 @@ Days follow Lagos time (WAT, UTC+1). Weeks start on Monday.
 ## Deploy
 
 ```bash
-# from the folder that holds frontend/ and backend/
-docker build -f backend/Dockerfile -t naija-childhood-api .
+docker build -t naija-childhood-api .
 docker run -e DATABASE_URL=… -e JWT_SECRET=… -e CORS_ORIGINS=https://your.site -p 4000:4000 naija-childhood-api
 ```
 

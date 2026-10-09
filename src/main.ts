@@ -2,7 +2,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 // Load .env for local development (production sets real environment variables).
-const envFile = join(__dirname, "../../../.env");
+const envFile = join(__dirname, "../../.env");
 if (existsSync(envFile)) {
   for (const line of readFileSync(envFile, "utf8").split("\n")) {
     const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*"?(.*?)"?\s*$/);

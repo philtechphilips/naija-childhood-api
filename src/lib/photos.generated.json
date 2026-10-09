@@ -1,0 +1,101 @@
+{
+  "ten-ten": {
+    "width": 1600,
+    "height": 1200,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAAAQAgCdASoQAAwAA4BaJQBOgCK51Q4OldqAAP7h7MBchSF1AfY+9btS8Y/37xBV0eDn/rFfBQJsQzuJkJdvWp14FTy29wzwFTWmU8Cj2UcNQcAA"
+  },
+  "police-thief": {
+    "width": 1600,
+    "height": 1200,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAABQAgCdASoQAAwAA4BaJZQCdAYtBvo13nezPAAA/u5ifG0Cn1eLuG4W4PHSmzcKsGG3x6+1x4lGIfc+5bAUryTnm1tkd6Oa7ResX8GuirTXpQAA"
+  },
+  "suwe": {
+    "width": 900,
+    "height": 1200,
+    "widths": [
+      480,
+      900
+    ],
+    "blur": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADwAwCdASoQABUAPu1iqU2ppaOiMAgBMB2JYwCdACHwx7yYQ9LepYUAAPrr9Vc+N5Py0WF9RGt2/P6usv/RiO+IUZb2vY76/cRHca+LiGp6LZ6KjZYEoSgXzak+Lq1AUEo7AH7i9qIAAA=="
+  },
+  "suwe-wide": {
+    "width": 1600,
+    "height": 1200,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRkwAAABXRUJQVlA4IEAAAAAQAgCdASoQAAwAA4BaJYwCdADxGK0G5RcwAP3rsfQJGRC8KLl7GhDgck3y9fwAvB6zkdCy0jXgrHW5kuTMIAAA"
+  },
+  "school-friends": {
+    "width": 1600,
+    "height": 1000,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAAAQAgCdASoQAAoAA4BaJYwCw7DwOCtmKu6AAP7sEuQfpXfpgPb3yJ+yD6UHIH4rWvR7ZkQ4pSq09pRVsUAMIZNykwhTf5H+7/xE9QlrYs/IAA=="
+  },
+  "school-yard": {
+    "width": 1600,
+    "height": 900,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAACQAQCdASoQAAkAA4BaJQBOgBVQagAA/nkW30E2LlkpNGguM3UoDz0SiC3YsuAZf++M4G8ISAH8rlybiXmgAA=="
+  },
+  "intensity": {
+    "width": 1600,
+    "height": 900,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAAAQAgCdASoQAAkAA4BaJYwCsAYsZlbbj+MwAP7q86vwUpzZm+BrV+yXAglcWhBUg+1r3ro/NL0zrAi+F/s2YhswZlXzsQ5yAAA="
+  },
+  "playground": {
+    "width": 1200,
+    "height": 1200,
+    "widths": [
+      480,
+      960,
+      1200
+    ],
+    "blur": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAAAQAgCdASoQABAAA4BaJYwC7AYxZjseTDEAAP2y57QPdv5kTO/bacZN4lOJQHPnsRsq4lgt6ZQlADtoxcXv5jBThoB4W3qloQiA5dsrVnzT33t6MmAd+oPP9fV/0G94KD2hES43A/AEgAAA"
+  },
+  "sack-race": {
+    "width": 2621,
+    "height": 1966,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAAAwAgCdASoQAAwAA4BaJYgCdAEQZIQGwQpOAAD+4NsfE81xJO6UQZFByhxjsjvvVDKvqfFEQAB0WLqZ7gYD9Rz8Ya6phJy7wqpkC0qJAfskJBvtLlcAAA=="
+  },
+  "skipping": {
+    "width": 2621,
+    "height": 1966,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADwAQCdASoQAAwAA4BaJYgCdAEPhUsECAAA/sYD4H/toG/zXST5ilKiqhbXWJvBy4pVJdbKICk3KVPqOYwHmEkdDQAAAA=="
+  }
+}

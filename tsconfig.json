@@ -5,10 +5,10 @@
     "moduleResolution": "node",
     "lib": ["ES2022", "DOM"],
     "types": ["node"],
-    "rootDir": "..",
+    "rootDir": ".",
     "outDir": "dist",
     "baseUrl": ".",
-    "paths": { "@/*": ["../frontend/*"] },
+    "paths": { "@/*": ["./src/*"] },
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "experimentalDecorators": true,
@@ -19,5 +19,5 @@
     "sourceMap": true,
     "declaration": false
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "../frontend/lib/validation.ts", "../frontend/lib/daily.ts", "../frontend/lib/progression.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }
