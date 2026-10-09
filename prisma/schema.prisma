@@ -1,0 +1,106 @@
+// Naija Childhood API data model.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// A registered player. Guests never reach the server; they sign up to sync.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  avatar       Int      @default(0)
+  xp           Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sessions      Session[]
+  bests         Best[]
+  refreshTokens RefreshToken[]
+  dailies       DailyCompletion[]
+}
+
+/// Rotating refresh tokens (only the hash is stored).
+model RefreshToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+/// One finished game, validated server-side with the same rules as the app.
+model Session {
+  id         String   @id @default(cuid())
+  /// Id generated on the phone, so retries and offline syncs never double-count.
+  clientId   String
+  userId     String
+  game       String
+  mode       String
+  score      Int
+  ranked     Boolean
+  durationMs Int
+  stats      Json
+  options    Json
+  log        Int[]
+  /// Lagos calendar day the game was played (YYYY-MM-DD), for daily boards.
+  dayKey     String
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, clientId])
+  @@index([game, ranked, createdAt])
+  @@index([userId, createdAt])
+}
+
+/// Each player's best ranked score per game: the all-time leaderboard reads this.
+model Best {
+  userId    String
+  game      String
+  score     Int
+  sessionId String
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, game])
+  @@index([game, score(sort: Desc)])
+}
+
+model DailyCompletion {
+  userId    String
+  dayKey    String
+  game      String
+  score     Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, dayKey])
+  @@index([dayKey, score(sort: Desc)])
+}
+
+/// Remote config: lets the app change (games on/off, featured game, announcement) without a release.
+model RemoteConfig {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+/// Anonymous product analytics from the app (no personal data).
+model AnalyticsEvent {
+  id        BigInt   @id @default(autoincrement())
+  name      String
+  props     Json
+  at        DateTime
+  createdAt DateTime @default(now())
+
+  @@index([name, at])
+}
