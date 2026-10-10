@@ -6,6 +6,7 @@ import { validateRun } from "@/games/police-thief/run-rules";
 import { validateRace } from "@/games/sack-race/rules";
 import { validateSkipping } from "@/games/skipping/rules";
 import { validateHideSeek } from "@/games/hide-seek/rules";
+import { validateSlap } from "@/games/hand-slap/rules";
 
 /**
  * Plausibility checks applied before a score is accepted onto a leaderboard.
@@ -25,7 +26,7 @@ export function validateResult(r: GameResult): { ok: true } | { ok: false; reaso
         const sum = summarize(decodeLog(r.log), target);
         if (sum.score !== r.score) return { ok: false, reason: "Score does not match the match log" };
         if (sum.winner === null) return { ok: false, reason: "Match not finished" };
-        // Each throw takes at least a bar at the top tempo (4 beats at 172 bpm ≈ 1.4s).
+        // Each throw takes at least a bar at the top tempo (4 beats at 160 bpm = 1.5s).
         if (seconds < sum.throws * 1.2) return { ok: false, reason: "Match too fast" };
       } catch {
         return { ok: false, reason: "Unreadable match log" };
@@ -77,6 +78,10 @@ export function validateResult(r: GameResult): { ok: true } | { ok: false; reaso
     case "hide-seek": {
       if ((r.log[0] === 0 ? "hide" : "seek") !== r.mode) return { ok: false, reason: "Mode does not match the game log" };
       const reason = validateHideSeek(r.log, r.score, seconds);
+      return reason ? { ok: false, reason } : { ok: true };
+    }
+    case "hand-slap": {
+      const reason = validateSlap(r.log, r.score, seconds);
       return reason ? { ok: false, reason } : { ok: true };
     }
     default:

@@ -60,9 +60,9 @@ export function nextLeader(current: Player, winner: Player | null): Player {
   return winner ?? current;
 }
 
-/** Beats per minute for the next bar. The rhythm speeds up as the match goes on. */
-export function bpmFor(startBpm: number, throwsPlayed: number): number {
-  return Math.min(startBpm + throwsPlayed * 3, 172);
+/** Beats per minute for the next bar. The rhythm speeds up gently as the match goes on. */
+export function bpmFor(startBpm: number, throwsPlayed: number, rampBpm = 2, topBpm = 160): number {
+  return Math.min(startBpm + throwsPlayed * rampBpm, topBpm);
 }
 
 export interface MatchSummary {

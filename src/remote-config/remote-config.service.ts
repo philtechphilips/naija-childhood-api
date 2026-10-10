@@ -19,7 +19,7 @@ export const RemoteConfigSchema = z.object({
 export type RemoteConfig = z.infer<typeof RemoteConfigSchema>;
 
 export const DEFAULT_CONFIG: RemoteConfig = {
-  games: Object.fromEntries(GAME_SLUGS.map((g) => [g, { enabled: true, badge: g === "sack-race" || g === "skipping" || g === "hide-seek" ? "New" : null }])),
+  games: Object.fromEntries(GAME_SLUGS.map((g) => [g, { enabled: true, badge: ["sack-race", "skipping", "hide-seek", "hand-slap"].includes(g) ? "New" : null }])),
   featured: "police-thief",
   announcement: { id: "sports-day", text: "Sports day don land! Try the new Sack Race and Skipping Rope.", href: "/games/sack-race" },
   roadmap: ["Ayo Olopon", "Tin game", "Dodgeball", "Egg & spoon", "Freeze", "Tinko tinko", "Ludo"],

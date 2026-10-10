@@ -140,6 +140,20 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     check: (_p, r) => r.game === "hide-seek" && r.mode === "seek" && r.won === true && r.options.difficulty !== "easy",
   },
   {
+    code: "lightning-hands",
+    name: "Lightning Hands",
+    description: "Pull away from a slap in under 0.2 seconds.",
+    game: "hand-slap",
+    check: (_p, r) => r.game === "hand-slap" && (r.stats.fastDodges ?? 0) >= 1,
+  },
+  {
+    code: "untouchable",
+    name: "Untouchable",
+    description: "Win Backhand Slap without getting slapped once.",
+    game: "hand-slap",
+    check: (_p, r) => r.game === "hand-slap" && r.won === true && (r.stats.slapped ?? 1) === 0,
+  },
+  {
     code: "streak-3",
     name: "3-Day Streak",
     description: "Play three days in a row.",

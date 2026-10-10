@@ -26,7 +26,7 @@ export interface DailyChallenge {
   target: number;
 }
 
-const ROTATION: GameSlug[] = ["ten-ten", "suwe", "police-thief", "sack-race", "skipping", "hide-seek"];
+const ROTATION: GameSlug[] = ["ten-ten", "suwe", "police-thief", "sack-race", "skipping", "hide-seek", "hand-slap"];
 
 /** Today's challenge. Deterministic from the date, so everyone gets the same one. */
 export function dailyChallenge(key = dayKey()): DailyChallenge {
@@ -91,6 +91,19 @@ export function dailyChallenge(key = dayKey()): DailyChallenge {
       options: { difficulty: "normal", time: "afternoon" },
     };
   }
+  if (game === "hand-slap") {
+    const target = 2 + Math.floor(rng() * 3);
+    return {
+      key,
+      game,
+      seed,
+      target,
+      title: "Fast Hands",
+      description: `Beat Emeka at Backhand Slap on Normal or Hard with at least ${target} dodges.`,
+      mode: "cpu",
+      options: { difficulty: "normal", place: "school" },
+    };
+  }
   if (game === "suwe") {
     const target = 2500 + Math.floor(rng() * 6) * 500;
     return {
@@ -123,6 +136,7 @@ export function meetsChallenge(c: DailyChallenge, r: GameResult): boolean {
   if (c.game === "suwe") return r.mode === "daily" && r.score >= c.target;
   if (c.game === "sack-race") return r.won === true && r.options.difficulty !== "easy";
   if (c.game === "skipping") return (r.stats.jumps ?? 0) >= c.target;
+  if (c.game === "hand-slap") return r.won === true && r.options.difficulty !== "easy" && (r.stats.dodges ?? 0) >= c.target;
   if (c.game === "hide-seek") {
     if (r.mode !== c.mode || r.options.difficulty === "easy") return false;
     return c.mode === "seek" ? (r.stats.found ?? 0) >= c.target : r.won === true;

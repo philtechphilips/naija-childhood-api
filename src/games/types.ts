@@ -1,7 +1,7 @@
 import type { PhotoName } from "@/lib/photos";
 import type { Sfx } from "@/games/core/audio";
 
-export type GameSlug = "ten-ten" | "police-thief" | "suwe" | "sack-race" | "skipping" | "hide-seek";
+export type GameSlug = "ten-ten" | "police-thief" | "suwe" | "sack-race" | "skipping" | "hide-seek" | "hand-slap";
 
 export interface OptionChoice {
   value: string;

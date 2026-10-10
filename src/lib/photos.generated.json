@@ -107,5 +107,15 @@
       1600
     ],
     "blur": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAQCdASoQAAwAA4BaJYwAAXDsRB8gAP7wG8RcaRbwUJwK/JXraMdLsDgLl6oz7icSyjanySWlEOCwXFeLKGK7+B/+k9JfwRDp1v9QcAA="
+  },
+  "hand-slap": {
+    "width": 2621,
+    "height": 1966,
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "blur": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADwAQCdASoQAAwAA4BaJQBOgCHhG+EV6iAA/eIoowZirHgtkL/oFqUoXxdilhZnWpgdSK+dRK/TohrgwtEsFFSViVQCvcmrKj5brhaD9ImAL/GB+c/Hzt51tCBAAAAA"
   }
 }
