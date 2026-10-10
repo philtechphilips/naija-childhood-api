@@ -37,6 +37,13 @@ export const RUN = {
   /** Energy-drink rush: seconds, speed multiplier. */
   rushSeconds: 4.5,
   rushBoost: 1.3,
+  /** Agbo turbo: seconds, speed multiplier. Crashes can't stop you while it lasts. */
+  turboSeconds: 6,
+  turboBoost: 1.75,
+  /** Minimum metres between agbo bottles on the street. */
+  turboGap: 320,
+  /** Seconds the thief staggers after barrelling through something on turbo. */
+  knockSeconds: 0.45,
 } as const;
 
 /** Street snacks the thief snatches from hawkers on the run. */
@@ -61,6 +68,14 @@ export interface Snack {
 
 /** How the player gets past: jump over, slide under, change lane, jump the hole, or dodge the person. */
 export type Clearance = "jump" | "slide" | "block" | "hole" | "bump";
+
+/** Agbo bottle floating over a lane: grab it for a turbo. */
+export interface Boost {
+  id: number;
+  lane: number;
+  z: number;
+  taken?: boolean;
+}
 
 export type ObstacleKind = "danfo" | "brt" | "keke" | "okada" | "hawker" | "barrier" | "checkpoint" | "table" | "generator" | "cart" | "pole" | "banner" | "pothole";
 
@@ -107,6 +122,8 @@ export interface Obstacle {
   seed: number;
   hit?: boolean;
   honked?: boolean;
+  /** Run clock when a turbo-charged thief knocked it flying. */
+  knocked?: number;
 }
 
 export interface Coin {
@@ -136,7 +153,12 @@ export function createTrack(seed: number) {
   const obstacles: Obstacle[] = [];
   const coins: Coin[] = [];
   const snacks: Snack[] = [];
+  const boosts: Boost[] = [];
   let sinceSnack = 0;
+  // Own random stream, so adding agbo bottles doesn't change the rest of the street.
+  const boostRng: Rng = createRng(seed ^ 0xa6b0);
+  // The first bottle turns up a bit sooner so new players find out about it.
+  let sinceBoost = 150;
   let nextId = 1;
   // Clear road at the start while the thief gets going.
   let cursor = 48;
@@ -281,6 +303,7 @@ export function createTrack(seed: number) {
     obstacles,
     coins,
     snacks,
+    boosts,
     /** Generate the street up to `z` metres. */
     fill(z: number) {
       while (cursor < z) {
@@ -301,6 +324,14 @@ export function createTrack(seed: number) {
             snacks.push({ id: nextId++, kind: rng() < 0.3 ? "energy" : "roll", lane, z: zs, side });
             sinceSnack = 0;
           }
+        } else if ((sinceBoost += len + gap) > RUN.turboGap + boostRng() * 200) {
+          // Agbo bottle, rarer than snacks, in a lane with nothing solid around it.
+          const zb = cursor + len + gap / 2;
+          const lanes = [0, 1, 2].filter((l) => !obstacles.some((o) => o.z < zb + 4 && o.z + OBSTACLES[o.kind].len > zb - 4 && (OBSTACLES[o.kind].wide || o.lane === l)));
+          if (lanes.length) {
+            boosts.push({ id: nextId++, lane: lanes[Math.floor(boostRng() * lanes.length)]!, z: zb });
+            sinceBoost = 0;
+          }
         }
         cursor += len + gap;
       }
@@ -316,6 +347,9 @@ export function createTrack(seed: number) {
       let k = 0;
       while (k < snacks.length && snacks[k]!.z + 4 < z) k++;
       if (k) snacks.splice(0, k);
+      let b = 0;
+      while (b < boosts.length && boosts[b]!.z + 4 < z) b++;
+      if (b) boosts.splice(0, b);
     },
   };
 }
@@ -346,7 +380,10 @@ export function validateRun(log: number[], score: number, durationSeconds: numbe
   const [distance, coins, , t10] = log as [number, number, number, number];
   const seconds = t10 / 10;
   if (seconds > durationSeconds + 3) return "Run longer than the session";
-  if (distance > RUN.maxSpeed * RUN.rushBoost * seconds + 40) return "Ran faster than possible";
+  // Each agbo bottle (at most one per turboGap metres) allows a few seconds above rush speed.
+  const turbos = Math.floor(distance / RUN.turboGap) + 1;
+  const turboExtra = turbos * RUN.maxSpeed * (RUN.turboBoost - RUN.rushBoost) * RUN.turboSeconds;
+  if (distance > RUN.maxSpeed * RUN.rushBoost * seconds + turboExtra + 40) return "Ran faster than possible";
   if (coins > distance / 2 + 5) return "Too many coins for the distance";
   if (scoreRun({ distance, coins }) !== score) return "Score does not match the run log";
   return null;
