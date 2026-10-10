@@ -126,6 +126,20 @@ export const ACHIEVEMENTS: AchievementDef[] = [
     check: (_p, r) => r.game === "skipping" && (r.stats.jumps ?? 0) >= 30,
   },
   {
+    code: "home-free",
+    name: "Home Free!",
+    description: "Sneak back to the gate in Hide & Seek without getting tagged.",
+    game: "hide-seek",
+    check: (_p, r) => r.game === "hide-seek" && (r.stats.homeFree ?? 0) === 1,
+  },
+  {
+    code: "eagle-eye",
+    name: "Eagle Eye",
+    description: "Find all three hiders in Hide & Seek on Normal or Hard.",
+    game: "hide-seek",
+    check: (_p, r) => r.game === "hide-seek" && r.mode === "seek" && r.won === true && r.options.difficulty !== "easy",
+  },
+  {
     code: "streak-3",
     name: "3-Day Streak",
     description: "Play three days in a row.",

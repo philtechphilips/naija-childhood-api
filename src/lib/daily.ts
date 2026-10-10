@@ -26,7 +26,7 @@ export interface DailyChallenge {
   target: number;
 }
 
-const ROTATION: GameSlug[] = ["ten-ten", "suwe", "police-thief", "sack-race", "skipping"];
+const ROTATION: GameSlug[] = ["ten-ten", "suwe", "police-thief", "sack-race", "skipping", "hide-seek"];
 
 /** Today's challenge. Deterministic from the date, so everyone gets the same one. */
 export function dailyChallenge(key = dayKey()): DailyChallenge {
@@ -78,6 +78,19 @@ export function dailyChallenge(key = dayKey()): DailyChallenge {
       options: { difficulty: "easy", place: "school" },
     };
   }
+  if (game === "hide-seek") {
+    const seek = rng() < 0.5;
+    return {
+      key,
+      game,
+      seed,
+      target: seek ? 3 : 1,
+      title: seek ? "Nobody Escapes" : "Boju Boju",
+      description: seek ? "Find all three hiders on Normal or Hard before time runs out." : "Stay hidden from Emeka on Normal or Hard without getting caught.",
+      mode: seek ? "seek" : "hide",
+      options: { difficulty: "normal", time: "afternoon" },
+    };
+  }
   if (game === "suwe") {
     const target = 2500 + Math.floor(rng() * 6) * 500;
     return {
@@ -110,5 +123,9 @@ export function meetsChallenge(c: DailyChallenge, r: GameResult): boolean {
   if (c.game === "suwe") return r.mode === "daily" && r.score >= c.target;
   if (c.game === "sack-race") return r.won === true && r.options.difficulty !== "easy";
   if (c.game === "skipping") return (r.stats.jumps ?? 0) >= c.target;
+  if (c.game === "hide-seek") {
+    if (r.mode !== c.mode || r.options.difficulty === "easy") return false;
+    return c.mode === "seek" ? (r.stats.found ?? 0) >= c.target : r.won === true;
+  }
   return r.mode === "run" && (r.stats.distance ?? 0) >= c.target;
 }

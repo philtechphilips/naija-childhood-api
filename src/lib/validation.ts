@@ -5,6 +5,7 @@ import { MATCH_SECONDS, scoreMatch } from "@/games/police-thief/rules";
 import { validateRun } from "@/games/police-thief/run-rules";
 import { validateRace } from "@/games/sack-race/rules";
 import { validateSkipping } from "@/games/skipping/rules";
+import { validateHideSeek } from "@/games/hide-seek/rules";
 
 /**
  * Plausibility checks applied before a score is accepted onto a leaderboard.
@@ -71,6 +72,11 @@ export function validateResult(r: GameResult): { ok: true } | { ok: false; reaso
     }
     case "skipping": {
       const reason = validateSkipping(r.log, r.score, seconds);
+      return reason ? { ok: false, reason } : { ok: true };
+    }
+    case "hide-seek": {
+      if ((r.log[0] === 0 ? "hide" : "seek") !== r.mode) return { ok: false, reason: "Mode does not match the game log" };
+      const reason = validateHideSeek(r.log, r.score, seconds);
       return reason ? { ok: false, reason } : { ok: true };
     }
     default:
