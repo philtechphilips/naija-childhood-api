@@ -69,6 +69,8 @@ export interface EngineContext {
   music: boolean;
   haptic: (pattern: number | number[]) => void;
   onEnd: (result: GameResult) => void;
+  /** Swap the on-screen buttons mid-game (e.g. SLAP on your turn, PULL on theirs). null = back to the default. */
+  setControls?: (spec: ControlSpec | null) => void;
 }
 
 /**
